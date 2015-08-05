@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import app from './components/app.vue'
-import { createStore } from 'redux'
 import { reducers } from './reducers'
 import * as CollectionActions from './actions/CollectionActions';
-import 'todomvc-app-css/index.css';
+import vuedex from './lib/vuedux'
 
-const store = createStore(reducers);
+vuedex.createStore(reducers);
 
 Meteor.subscribe('todos');
 
@@ -15,13 +14,13 @@ Meteor.startup(() => {
     var docs = Todos.find({}).fetch();
     if (computation.firstRun) return; // ignore first empty run
     console.log('\n[Tracker] collection changed');
-    store.dispatch(CollectionActions.todoChanged(docs));
+    vuedex.store.dispatch(CollectionActions.todoChanged(docs));
   });
 });
 
+
 var rootApp = {
-  data: {  store: store  },
-  template: '<div><root-app store="{{store}}"></root-app></div>',
+  template: '<div><root-app></root-app></div>',
   components: { 'root-app': app }
 }
 
