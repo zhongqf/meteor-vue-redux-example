@@ -11,7 +11,7 @@
           <div class="view">
             <input class="toggle" type="checkbox" v-model="todo.completed">
             <label v-on="dblclick: editTodo(todo)">{{todo.title}}</label>
-            <button class="destroy" v-on="click: removeTodo(todo)"></button>
+            <button class="destroy" v-action="click: deleteTodo(todo._id)"></button>
           </div>
           <input class="edit" type="text" v-model="todo.title" v-todo-focus="todo == editedTodo" v-on="blur: doneEdit(todo), keyup: doneEdit(todo) | key 'enter', keyup: cancelEdit(todo) | key 'esc'">
         </li>
@@ -63,12 +63,9 @@ export default {
   },
   directives: {
     'todo-focus': function(value){
-      if (!value) {
-        return;
-      }
-      var el = this.el;
+      if (!value) return;
       setTimeout(()=>{
-        el.focus();
+        this.el.focus();
       }, 0);
     }
   },
@@ -91,10 +88,6 @@ export default {
 
       vuedux.actions.addTodo(value);
       this.newTodo = '';
-    },
-
-    removeTodo(todo) {
-      vuedux.actions.deleteTodo(todo._id);
     },
 
     editTodo(todo) {

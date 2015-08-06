@@ -16,6 +16,33 @@ function Vuedux(options = {}){
   }
 }
 
+function actionDirective() {
+  var actionRE = /^([\w_$]+)(\(.*\))?$/
+  var action = _.extend({}, Vue.directive('on'))
+
+  action.bind = function () {
+    var exp = this.expression
+    var actionMatch = exp.match(actionRE)
+    if (actionMatch) {
+      var actionName = actionMatch[1]
+      var action = this.vm.$actions[actionName]
+      if (action) {
+        this._watcherExp = this.expression = '$actions.' + exp
+      } else {
+        process.env.NODE_ENV !== 'production' && _.warn(
+          'Unknown action: ' + actionName
+        )
+      }
+    } else {
+      process.env.NODE_ENV !== 'production' && _.warn(
+        'Invalid v-action expression: ' + exp
+      )
+    }
+  }  
+
+  return action;
+}
+
 function createMixin(vuedux) {
   return {
     bindActions: function(actions){
@@ -37,7 +64,11 @@ function createMixin(vuedux) {
           handleChange() {
             this.state = vuedux.store.getState()
             vuedux.actions = bindActionCreators(actions, vuedux.store.dispatch);
+            this.$actions = vuedux.actions;
           }        
+        },
+        directives: {
+          action: actionDirective()
         }
       }
     }
