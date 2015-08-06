@@ -18,12 +18,6 @@ Meteor.startup(() => {
   });
 });
 
-
-var rootApp = {
-  template: '<div><root-app></root-app></div>',
-  components: { 'root-app': app }
-}
-
 Template.body.onRendered(function(){
-  new Vue(rootApp).$mount('#root');
+  new Vue(app).$mount('#root');
 });
