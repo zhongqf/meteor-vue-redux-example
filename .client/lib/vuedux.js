@@ -12,7 +12,9 @@ function Vuedux(options = {}){
     if (this.store) 
       process.env.NODE_ENV !== 'production' && _.warn('Duplicated stores.')
     else
-      this.store = createStore(reducers)
+      this.store = createStore(reducers);
+
+    return this.store;
   }
 }
 

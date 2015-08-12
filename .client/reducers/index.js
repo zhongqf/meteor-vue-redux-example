@@ -1,1 +1,2 @@
-export { default as reducers } from './todos';
+export { default as todosReducer } from './todos';
+export { default as memosReducer } from './memos';

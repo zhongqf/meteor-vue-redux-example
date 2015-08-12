@@ -11,31 +11,32 @@ export default function todos(state = initialState, action) {
       title: action.title
     });
 
-    return { todos: Todo.findAll()};
+    //We have not changed the state here, so we return original state.
+    return state;
 
   case DELETE_TODO:
     Todos.remove({_id: action.id})
-    return { todos: Todo.findAll()};
+    return state;
 
   case EDIT_TODO:
     Todos.update({_id: action.id}, {$set: {text: action.title}})
-    return { todos: Todo.findAll()};
+    return state;
 
   case MARK_TODO:
     const todo = Todos.findOne({_id: action.id})
     Todos.update({_id: action.id}, {$set: {completed: !todo.completed}})
-    return { todos: Todo.findAll()};
+    return state;
 
   case MARK_ALL:
     Todos.update({}, {$set: {completed: true}})
-    return { todos: Todo.findAll()};
+    return state;
 
   case CLEAR_MARKED:
     Todos.update({}, {$set: {completed: false}})
-    return { todos: Todo.findAll()};
+    return state;
 
-  case TODO_CHANGED:
-    return { todos: Todo.findAll()};
+   case TODO_CHANGED:
+     return { todos: Todo.findAll()};
 
   default:
     return state;
