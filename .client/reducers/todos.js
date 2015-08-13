@@ -1,6 +1,6 @@
 import { ADD_TODO, DELETE_TODO, EDIT_TODO, MARK_TODO, MARK_ALL, CLEAR_MARKED, TODO_CHANGED } from '../constants/ActionTypes';
 
-const initialState = { todos: Todo.findAll()};
+const initialState = {};
 
 export default function todos(state = initialState, action) {
 
@@ -35,8 +35,8 @@ export default function todos(state = initialState, action) {
     Todos.update({}, {$set: {completed: false}})
     return state;
 
-   case TODO_CHANGED:
-     return { todos: Todo.findAll()};
+   // case TODO_CHANGED:
+   //   return { todos: Todo.findAll()};
 
   default:
     return state;

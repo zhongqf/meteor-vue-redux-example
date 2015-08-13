@@ -4,7 +4,7 @@
       <h1>todos</h1>
       <input class="new-todo" autofocus autocomplete="off" placeholder="What needs to be done?" v-model="newTodo" v-on="keyup:addTodo | key 'enter'">
     </header>
-    <section class="main" v-show="state.todosReducer.todos.length" v-cloak>
+    <section class="main" v-show="state.meteorData.todos.length" v-cloak>
       <input class="toggle-all" type="checkbox" v-model="allDone">
       <ul class="todo-list">
         <li class="todo" v-repeat="todo: filteredTodos" v-class="completed: todo.completed, editing: todo == editedTodo">
@@ -17,7 +17,7 @@
         </li>
       </ul>
     </section>
-    <footer class="footer" v-show="state.todosReducer.todos.length" v-cloak>
+    <footer class="footer" v-show="state.meteorData.todos.length" v-cloak>
       <span class="todo-count">
         <strong v-text="remaining"></strong> {{remaining | pluralize 'item'}} left
       </span>
@@ -26,7 +26,7 @@
         <li><a v-on='click: visibility = "active"'  v-class="selected: visibility == 'active'">Active</a></li>
         <li><a v-on='click: visibility = "completed"'  v-class="selected: visibility == 'completed'">Completed</a></li>
       </ul>
-      <button class="clear-completed" v-on="click:removeCompleted" v-show="state.todosReducer.todos.length > remaining">
+      <button class="clear-completed" v-on="click:removeCompleted" v-show="state.meteorData.todos.length > remaining">
         Clear completed
       </button>
     </footer>
@@ -48,7 +48,6 @@ import 'todomvc-app-css/index.css';
 
 import * as TodoActions from '../actions/TodoActions'
 import * as MemoActions from '../actions/MemoActions'
-import * as CollectionActions from '../actions/CollectionActions';
 import vuedux from '../lib/vuedux';
 
 var filters = {
@@ -58,7 +57,7 @@ var filters = {
   };
 
 export default {
-  mixins: [vuedux.mixin.bindActions({...TodoActions, ...MemoActions, ...CollectionActions})],
+  mixins: [vuedux.mixin.bindActions({...TodoActions, ...MemoActions})],
   data() {
     return {
       newTodo: '',
@@ -79,11 +78,11 @@ export default {
   // computed properties
   // http://vuejs.org/guide/computed.html
   computed: {
-    filteredTodos(){ return filters[this.visibility](this.state.todosReducer.todos);},
-    remaining(){ return filters.active(this.state.todosReducer.todos).length;},
+    filteredTodos(){ return filters[this.visibility](this.state.meteorData.todos);},
+    remaining(){ return filters.active(this.state.meteorData.todos).length;},
     allDone: {
       get() { return this.remaining === 0; },
-      set(value) { this.state.todosReducer.todos.forEach( todo => todo.completed = value);}
+      set(value) { this.state.meteorData.todos.forEach( todo => todo.completed = value);}
     }
   },
   // methods that implement data logic.
