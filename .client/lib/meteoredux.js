@@ -3,7 +3,7 @@ var meteorActionName = "@@METEOREDUX/DATA_CHANGED";
 
 function meteorData(state = {}, action) {
   if (action.type === meteorActionName) {
-    console.log("Meteor data updated.");
+    //console.log("Meteor data updated.");
     let results = action.results;
     results.slice().forEach( result => {
       state[result.property] = result.value;

@@ -11,7 +11,7 @@
           <div class="view">
             <input class="toggle" type="checkbox" v-model="todo.completed">
             <label v-on="dblclick: editTodo(todo)">{{todo.title}}</label>
-            <button class="destroy" v-action="click: deleteTodo(todo._id)"></button>
+            <button class="destroy" v-mcall="click: '/todos/delete'(todo._id)"></button>
           </div>
           <input class="edit" type="text" v-model="todo.title" v-todo-focus="todo == editedTodo" v-on="blur: doneEdit(todo), keyup: doneEdit(todo) | key 'enter', keyup: cancelEdit(todo) | key 'esc'">
         </li>
@@ -49,6 +49,7 @@ import 'todomvc-app-css/index.css';
 import * as TodoActions from '../actions/TodoActions'
 import * as MemoActions from '../actions/MemoActions'
 import vuedux from '../lib/vuedux';
+import meteuv from '../lib/meteuv';
 
 var filters = {
     all: (todos) => todos,
@@ -57,7 +58,7 @@ var filters = {
   };
 
 export default {
-  mixins: [vuedux.mixin.bindActions({...TodoActions, ...MemoActions})],
+  mixins: [meteuv.mixin, vuedux.mixin.bindActions({...TodoActions, ...MemoActions})],
   data() {
     return {
       newTodo: '',

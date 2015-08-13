@@ -55,6 +55,9 @@ function createMixin(vuedux) {
           }
         },
         created() {
+          vuedux.actions = bindActionCreators(actions, vuedux.store.dispatch);
+          this.$actions = vuedux.actions;
+
           const handleChange = this.handleChange.bind(this)
           this.unsubscribe = vuedux.store.subscribe(handleChange)
           handleChange()        
@@ -65,8 +68,6 @@ function createMixin(vuedux) {
         methods: {
           handleChange() {
             this.state = vuedux.store.getState()
-            vuedux.actions = bindActionCreators(actions, vuedux.store.dispatch);
-            this.$actions = vuedux.actions;
           }        
         },
         directives: {
