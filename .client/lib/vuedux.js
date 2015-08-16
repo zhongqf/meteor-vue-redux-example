@@ -16,6 +16,14 @@ function Vuedux(options = {}){
 
     return this.store;
   }
+
+  this.attachStore = function(store) {
+    if (this.store) 
+      process.env.NODE_ENV !== 'production' && _.warn('Duplicated stores.')
+    else
+      this.store = store;
+    return this.store;    
+  }
 }
 
 function actionDirective() {
@@ -50,9 +58,9 @@ function createMixin(vuedux) {
     bindActions: function(actions){
       return {
         data(){
-          return {
-            state: ''
-          }
+         return {
+           state: ''
+         }
         },
         created() {
           vuedux.actions = bindActionCreators(actions, vuedux.store.dispatch);

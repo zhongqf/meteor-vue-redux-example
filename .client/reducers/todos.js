@@ -1,8 +1,9 @@
 import { ADD_TODO, DELETE_TODO, EDIT_TODO, MARK_TODO, MARK_ALL, CLEAR_MARKED, TODO_CHANGED } from '../constants/ActionTypes';
+import { bindReactiveData } from '../lib/meteorredux2'
 
 const initialState = {};
 
-export default function todos(state = initialState, action) {
+function todos(state = initialState, action) {
 
   switch (action.type) {
   case ADD_TODO:
@@ -10,7 +11,6 @@ export default function todos(state = initialState, action) {
       completed: false,
       title: action.title
     });
-
     //We have not changed the state here, so we return original state.
     return state;
 
@@ -19,7 +19,7 @@ export default function todos(state = initialState, action) {
     return state;
 
   case EDIT_TODO:
-    Todos.update({_id: action.id}, {$set: {text: action.title}})
+    Todos.update({_id: action.id}, {$set: {title: action.title}})
     return state;
 
   case MARK_TODO:
@@ -35,10 +35,15 @@ export default function todos(state = initialState, action) {
     Todos.update({}, {$set: {completed: false}})
     return state;
 
-   // case TODO_CHANGED:
-   //   return { todos: Todo.findAll()};
 
   default:
     return state;
   }
 }
+
+function reactiveData(){
+  return {
+    todos: Todo.findAll()
+  }
+}
+export default bindReactiveData(todos, reactiveData);
