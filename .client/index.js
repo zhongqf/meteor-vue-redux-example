@@ -3,7 +3,7 @@ import { createStore, combineReducers } from 'redux';
 import app from './components/app.vue'
 import  * as reducers  from './reducers'
 import vuedux from './lib/vuedux'
-import { connectToMeteor } from './lib/meteorredux2'
+import { connectToMeteor } from 'meteoredux'
 
 Meteor.subscribe('todos');
 
