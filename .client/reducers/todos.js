@@ -1,5 +1,5 @@
 import { ADD_TODO, DELETE_TODO, EDIT_TODO, MARK_TODO, MARK_ALL, CLEAR_MARKED, TODO_CHANGED } from '../constants/ActionTypes';
-import { bindReactiveData } from '../lib/meteorredux2'
+import { bindReactiveData } from 'meteoredux'
 
 const initialState = {};
 

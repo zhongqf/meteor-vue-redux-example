@@ -18,8 +18,9 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "redux": "^1.0.0-rc",
-    "vue": "^0.12.7"
+    "redux": "^1.0.0",
+    "vue": "^0.12.7",
+    "meteoredux": "^0.0.2"
   },
   "devDependencies": {
     "babel-core": "^5.5.8",
