@@ -1,9 +1,9 @@
 import * as types from '../constants/ActionTypes';
 
-export function addTodo(title) {
+export function addTodo(text) {
   return {
     type: types.ADD_TODO,
-    title 
+    text
   };
 }
 
@@ -14,11 +14,11 @@ export function deleteTodo(id) {
   };
 }
 
-export function editTodo(id, title) {
+export function editTodo(id, text) {
   return {
     type: types.EDIT_TODO,
     id,
-    title
+    text
   };
 }
 

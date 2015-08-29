@@ -10,15 +10,11 @@
         <li class="todo" v-repeat="todo: filteredTodos" v-class="completed: todo.completed, editing: todo == editedTodo">
           <div class="view">
             <input class="toggle" type="checkbox" v-model="todo.completed">
-            <label v-on="dblclick: editTodo(todo)">{{todo.title}}</label>
+            <label v-on="dblclick: editTodo(todo)">{{todo.text}}</label>
             <button class="destroy" v-mcall="click: '/todos/delete'(todo._id)"></button>
           </div>
-          <input class="edit" type="text" v-model="todo.title" v-todo-focus="todo == editedTodo" v-on="blur: doneEdit(todo), keyup: doneEdit(todo) | key 'enter', keyup: cancelEdit(todo) | key 'esc'"> 
-<!--          <li class="todo editing" v-repeat="todo: filteredTodos" v-class="completed: todo.completed">
-            <input class="toggle" type="checkbox" v-model="todo.completed">
-            <input class="edit" type="text" v-model="todo.title" v-on="focus: editTodo(todo), blur: doneEdit(todo), keyup: doneEdit(todo) | key 'enter', keyup: cancelEdit(todo) | key 'esc'">               
-            <button class="destroy" v-mcall="click: '/todos/delete'(todo._id)"></button>   
-        </li> -->
+          <input class="edit" type="text" v-model="todo.text" v-todo-focus="todo == editedTodo" v-on="blur: doneEdit(todo), keyup: doneEdit(todo) | key 'enter', keyup: cancelEdit(todo) | key 'esc'">
+        </li>
       </ul>
     </section>
     <footer class="footer" v-show="state.todosReducer.todos.length" v-cloak>
@@ -40,7 +36,6 @@
     <p v-text='state.memosReducer.memo'></p>
   </div>
   <footer class="info">
-
     <p>Double-click to edit a todo</p>
     <p>Written by <a href="http://evanyou.me">Evan You</a></p>
     <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
@@ -93,6 +88,7 @@ export default {
   // methods that implement data logic.
   // note there's no DOM manipulation here at all.
   methods: {
+
     addTodo() {
       var value = this.newTodo && this.newTodo.trim();
       if (!value)  return;
@@ -102,7 +98,7 @@ export default {
     },
 
     editTodo(todo) {
-      this.beforeEditCache = todo.title;
+      this.beforeEditCache = todo.text;
       this.editedTodo = todo;
     },
 
@@ -110,17 +106,17 @@ export default {
       if (!this.editedTodo) return;
       this.editedTodo = null;
 
-      var title = todo.title.trim();
-      if (!title) {
-        vuedux.actions.deleteTodo(todo._id);
+      var text= todo.text.trim();
+      if (!text) {
+        vuedux.actions.deleteTodo(todo._id) ;
         return 
       }
-      vuedux.actions.editTodo(todo._id, title);
+      vuedux.actions.editTodo(todo._id, text);
     },
 
     cancelEdit(todo) {
       this.editedTodo = null;
-      todo.title = this.beforeEditCache;
+      todo.text= this.beforeEditCache;
     },
 
     removeCompleted() {

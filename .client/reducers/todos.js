@@ -1,4 +1,4 @@
-import { ADD_TODO, DELETE_TODO, EDIT_TODO, MARK_TODO, MARK_ALL, CLEAR_MARKED, TODO_CHANGED } from '../constants/ActionTypes';
+import { ADD_TODO, DELETE_TODO, EDIT_TODO, MARK_TODO, MARK_ALL, CLEAR_MARKED } from '../constants/ActionTypes';
 import { bindReactiveData } from 'meteoredux'
 
 const initialState = {};
@@ -7,32 +7,28 @@ function todos(state = initialState, action) {
 
   switch (action.type) {
   case ADD_TODO:
-    Todos.insert({
-      completed: false,
-      title: action.title
-    });
+    Meteor.call("/todos/add", action.text);
     //We have not changed the state here, so we return original state.
     return state;
 
   case DELETE_TODO:
-    Todos.remove({_id: action.id})
+    Meteor.call("/todos/delete", action.id);
     return state;
 
   case EDIT_TODO:
-    Todos.update({_id: action.id}, {$set: {title: action.title}})
+    Meteor.call("/todos/modify", action.id, action.text);
     return state;
 
   case MARK_TODO:
-    const todo = Todos.findOne({_id: action.id})
-    Todos.update({_id: action.id}, {$set: {completed: !todo.completed}})
+    Meteor.call("/todos/mark", action.id);
     return state;
 
   case MARK_ALL:
-    Todos.update({}, {$set: {completed: true}})
+    Meteor.call("/todos/mark_all");
     return state;
 
   case CLEAR_MARKED:
-    Todos.update({}, {$set: {completed: false}})
+    Meteor.call("/todos/unmark_all");
     return state;
 
 
@@ -43,7 +39,7 @@ function todos(state = initialState, action) {
 
 function reactiveData(){
   return {
-    todos: Todo.findAll()
+    todos: Todos.find({}).fetch()
   }
 }
 export default bindReactiveData(todos, reactiveData);

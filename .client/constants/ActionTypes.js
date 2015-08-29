@@ -7,6 +7,3 @@ export const CLEAR_MARKED = 'CLEAR_MARKED';
 
 export const SAVE_MEMO = 'SAVE_MEMO';
 
-
-export const TODO_CHANGED = 'TODO_CHANGED';
-
